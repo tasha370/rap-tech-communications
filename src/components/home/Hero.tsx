@@ -21,7 +21,7 @@ export default function Hero() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
       >
-        <p className="mb-4 text-4xl md:text-4xl font-extrabold uppercase tracking-widest text-blue-300">
+        <p className="mb-4 text-lg md:text-3xl font-extrabold text-blue-300">
           Empowering Communities Through Technology
         </p>
 

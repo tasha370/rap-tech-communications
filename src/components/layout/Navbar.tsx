@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 
 const navLinks = [
   { name: "Home", href: "/" },
@@ -14,9 +15,25 @@ export default function Navbar() {
     <header className="sticky top-0 z-50 border-b bg-white/90 backdrop-blur">
       <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-6">
         {/* Logo */}
-        <Link href="/" className="text-2xl font-bold text-blue-700">
-          Rap-Tech
-        </Link>
+       <Link href="/" className="flex items-center gap-3">
+  <Image
+    src="/images/logo/logo.png"
+    alt="Rap-Tech Communications"
+    width={60}
+    height={60}
+    priority
+    className="h-14 w-auto"
+  />
+
+  <div className="hidden sm:block">
+    <h1 className="text-lg font-bold text-slate-900">
+      RAP-TECH
+    </h1>
+    <p className="text-xs text-slate-600">
+      Communications
+    </p>
+  </div>
+</Link>
 
         {/* Navigation */}
         <nav className="hidden items-center gap-8 md:flex">

@@ -20,7 +20,7 @@ export default function ContactPage() {
 
             <div className="mt-10 space-y-4 text-slate-700">
               <p>📍 Arua, Uganda</p>
-              <p>📞 +256 XXX XXX XXX</p>
+              <p>📞 +256 791906404</p>
               <p>✉ info@raptech.org</p>
             </div>
 

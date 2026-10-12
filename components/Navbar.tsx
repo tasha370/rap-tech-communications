@@ -1,7 +1,11 @@
+
 "use client";
+
+import Image from "next/image";
 import { Menu, X } from "lucide-react";
 import { useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 const navLinks = [
   { name: "Home", href: "/" },
@@ -14,39 +18,75 @@ const navLinks = [
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const pathname = usePathname();
+
+  const closeMenu = () => setIsOpen(false);
 
   return (
     <header className="site-header">
       <div className="container nav-container">
-        <Link href="/" className="logo" onClick={() => setIsOpen(false)}>
-          <span className="logo-mark">RT</span>
-
-          <span className="logo-text">
-            Rap-Tech
-            <small>Communications</small>
-          </span>
+        {/* Logo */}
+        <Link href="/" className="logo" onClick={closeMenu}>
+          <Image
+            src="/images/rap-tech-logo.jpeg"
+            alt="Rap-Tech Communications"
+            width={180}
+            height={65}
+            priority
+            className="logo-image"
+          />
         </Link>
 
-        <nav className={`desktop-nav ${isOpen ? "mobile-open" : ""}`}>
-          {navLinks.map((link) => (
-            <Link
-              key={link.name}
-              href={link.href}
-              onClick={() => setIsOpen(false)}
-            >
-              {link.name}
-            </Link>
-          ))}
+        {/* Navigation links */}
+        <nav
+          id="main-navigation"
+          className={`desktop-nav ${isOpen ? "mobile-open" : ""}`}
+          aria-label="Main navigation"
+        >
+          {navLinks.map((link) => {
+            const isActive = pathname === link.href;
+
+            return (
+              <Link
+                key={link.name}
+                href={link.href}
+                onClick={closeMenu}
+                className={isActive ? "active-link" : ""}
+                aria-current={isActive ? "page" : undefined}
+              >
+                {link.name}
+              </Link>
+            );
+          })}
+
+          <Link
+            href="/membership"
+            className="mobile-join-button"
+            onClick={closeMenu}
+          >
+            Join Us
+          </Link>
         </nav>
 
-        <Link href="/membership" className="nav-button">
+        {/* Desktop Join Us button */}
+        <Link
+          href="/membership"
+          className="nav-button desktop-join-button"
+          onClick={closeMenu}
+        >
           Join Us
         </Link>
 
+        {/* Mobile menu toggle */}
         <button
+          type="button"
           className="menu-button"
-          onClick={() => setIsOpen(!isOpen)}
-          aria-label="Toggle navigation menu"
+          onClick={() => setIsOpen((open) => !open)}
+          aria-label={
+            isOpen ? "Close navigation menu" : "Open navigation menu"
+          }
+          aria-expanded={isOpen}
+          aria-controls="main-navigation"
         >
           {isOpen ? <X size={25} /> : <Menu size={25} />}
         </button>

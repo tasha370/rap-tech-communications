@@ -1,4 +1,4 @@
-
+import Image from "next/image";
 import Link from "next/link";
 import {
   ArrowRight,
@@ -50,14 +50,16 @@ export default function Footer() {
         <div className="rt-footer-grid">
           {/* BRAND */}
           <div className="rt-footer-brand">
-            <Link href="/" className="rt-footer-logo">
-              <span className="rt-footer-logo-mark">R</span>
-
-              <span className="rt-footer-logo-text">
-                RAP-TECH
-                <small>COMMUNICATIONS</small>
-              </span>
-            </Link>
+            
+<Link href="/" className="footer-logo">
+  <Image
+    src="/images/rap-tech-logo.jpeg"
+    alt="Rap-Tech Communications"
+    width={200}
+    height={75}
+    className="footer-logo-image"
+  />
+</Link>
 
             <p className="rt-footer-description">
               Empowering communities through technology,
@@ -65,31 +67,15 @@ export default function Footer() {
               for a brighter and more inclusive future.
             </p>
 
-            <div className="rt-footer-socials">
-  <a
-    href="https://www.facebook.com/"
-    target="_blank"
-    rel="noopener noreferrer"
-    aria-label="Facebook"
-  >
+  
+<div className="rt-footer-socials">
+  <a href="https://www.facebook.com/" target="_blank" rel="noopener noreferrer">
     Facebook
   </a>
-
-  <a
-    href="https://www.instagram.com/"
-    target="_blank"
-    rel="noopener noreferrer"
-    aria-label="Instagram"
-  >
+  <a href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer">
     Instagram
   </a>
-
-  <a
-    href="https://www.linkedin.com/"
-    target="_blank"
-    rel="noopener noreferrer"
-    aria-label="LinkedIn"
-  >
+  <a href="https://www.linkedin.com/" target="_blank" rel="noopener noreferrer">
     LinkedIn
   </a>
 </div>

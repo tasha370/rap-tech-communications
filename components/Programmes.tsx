@@ -1,3 +1,4 @@
+
 import Link from "next/link";
 import {
   ArrowRight,
@@ -12,24 +13,24 @@ const programmes = [
     title: "Digital Literacy",
     category: "Education",
     description:
-      "Providing digital skills and practical technology training to help individuals participate confidently in the digital economy.",
-    image: "/images/programs/digital-literacy.jpg",
+      "Building practical computer and digital skills to help individuals use technology confidently for learning, communication, work, and everyday activities.",
+    image: "/images/programmes/digital-literacy.png",
   },
   {
     icon: Globe,
     title: "Community Internet Connectivity",
     category: "Connectivity",
     description:
-      "Expanding access to reliable and affordable internet connectivity for communities, schools and underserved areas.",
-    image: "/images/programs/internet-connectivity.jpg",
+      "Promoting access to reliable and affordable internet so communities, schools, and underserved areas can benefit from online learning, information, and digital services.",
+    image: "/images/programmes/community-internet-connectivity.png",
   },
   {
     icon: Leaf,
     title: "Green Technology Solutions",
     category: "Sustainability",
     description:
-      "Promoting sustainable technology and clean energy solutions that support resilient and environmentally responsible communities.",
-    image: "/images/programs/green-energy.jpg",
+      "Encouraging energy-efficient technology, renewable energy awareness, and responsible electronic waste management to support environmentally sustainable communities.",
+    image: "/images/programmes/green-technology-solutions.png",
   },
 ];
 
@@ -60,11 +61,14 @@ export default function Programmes() {
             const Icon = programme.icon;
 
             return (
-              <article className="programme-card" key={programme.title}>
+              <article
+                className="programme-card"
+                key={programme.title}
+              >
                 <div
                   className="programme-image"
                   style={{
-                    backgroundImage: `url(${programme.image})`,
+                    backgroundImage: `url("${programme.image}")`,
                   }}
                 >
                   <div className="programme-image-overlay"></div>
@@ -83,7 +87,10 @@ export default function Programmes() {
 
                   <p>{programme.description}</p>
 
-                  <Link href="/programmes" className="programme-link">
+                  <Link
+                    href="/programmes"
+                    className="programme-link"
+                  >
                     Learn More
                     <ArrowRight size={17} />
                   </Link>

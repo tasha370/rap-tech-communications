@@ -12,19 +12,66 @@ import {
 
 export default function Contact() {
   const [message, setMessage] = useState("");
+  const [status, setStatus] = useState("");
+  const [isSending, setIsSending] = useState(false);
 
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
-    // Email delivery will be connected after the design is complete.
-    alert(
-      "Thank you for contacting Rap-Tech Communications! Email delivery will be configured soon."
-    );
+    const form = e.currentTarget;
+    const formData = new FormData(form);
+
+    const data = {
+      firstName: String(formData.get("firstName") || "").trim(),
+      lastName: String(formData.get("lastName") || "").trim(),
+      email: String(formData.get("email") || "").trim(),
+      phone: String(formData.get("phone") || "").trim(),
+      subject: String(formData.get("subject") || "").trim(),
+      message: String(formData.get("message") || "").trim(),
+    };
+
+    if (!data.firstName || !data.lastName || !data.email ||
+        !data.subject || !data.message) {
+      setStatus("Please complete all required fields.");
+      return;
+    }
+
+    setIsSending(true);
+    setStatus("");
+
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(
+          result.error || "Your message could not be sent. Please try again."
+        );
+      }
+
+      setStatus("Thank you! Your message has been sent successfully.");
+      form.reset();
+      setMessage("");
+    } catch (error) {
+      setStatus(
+        error instanceof Error
+          ? error.message
+          : "Something went wrong. Please try again."
+      );
+    } finally {
+      setIsSending(false);
+    }
   }
 
   return (
     <section className="rt-contact" id="contact">
-      {/* CONTACT INTRODUCTION */}
       <div className="rt-contact-header">
         <span className="rt-contact-label">GET IN TOUCH</span>
 
@@ -41,7 +88,6 @@ export default function Contact() {
         </p>
       </div>
 
-      {/* CONTACT DETAILS AND FORM */}
       <div className="rt-contact-container">
         <div className="rt-contact-info">
           <span className="rt-contact-label">CONTACT RAP-TECH</span>
@@ -70,7 +116,7 @@ export default function Contact() {
             </div>
             <div>
               <h4>Email Address</h4>
-              <p>info@raptech.org</p>
+              <p>raptechcommunications@gmail.com</p>
             </div>
           </div>
 
@@ -96,7 +142,6 @@ export default function Contact() {
           </div>
         </div>
 
-        {/* MESSAGE FORM */}
         <div className="rt-contact-form-card">
           <h3>Send Us a Message</h3>
 
@@ -112,6 +157,7 @@ export default function Contact() {
                   type="text"
                   name="firstName"
                   placeholder="Enter first name"
+                  autoComplete="given-name"
                   required
                 />
               </label>
@@ -122,6 +168,7 @@ export default function Contact() {
                   type="text"
                   name="lastName"
                   placeholder="Enter last name"
+                  autoComplete="family-name"
                   required
                 />
               </label>
@@ -134,6 +181,7 @@ export default function Contact() {
                   type="email"
                   name="email"
                   placeholder="you@example.com"
+                  autoComplete="email"
                   required
                 />
               </label>
@@ -144,6 +192,7 @@ export default function Contact() {
                   type="tel"
                   name="phone"
                   placeholder="+256..."
+                  autoComplete="tel"
                 />
               </label>
             </div>
@@ -154,15 +203,11 @@ export default function Contact() {
                 <option value="" disabled>
                   Select your enquiry
                 </option>
-                <option value="Digital Literacy">
-                  Digital Literacy
-                </option>
+                <option value="Digital Literacy">Digital Literacy</option>
                 <option value="Community Connectivity">
                   Community Connectivity
                 </option>
-                <option value="Green Technology">
-                  Green Technology
-                </option>
+                <option value="Green Technology">Green Technology</option>
                 <option value="Membership">Membership</option>
                 <option value="Partnership">Partnership</option>
                 <option value="General Enquiry">General Enquiry</option>
@@ -185,8 +230,19 @@ export default function Contact() {
               </span>
             </label>
 
-            <button type="submit" className="rt-contact-submit">
-              Send Message <Send size={18} />
+            {status && (
+              <p role="status" aria-live="polite">
+                {status}
+              </p>
+            )}
+
+            <button
+              type="submit"
+              className="rt-contact-submit"
+              disabled={isSending}
+            >
+              {isSending ? "Sending..." : "Send Message"}
+              <Send size={18} />
             </button>
           </form>
         </div>
